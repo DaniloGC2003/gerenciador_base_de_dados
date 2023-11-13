@@ -2,7 +2,6 @@
 
 import MySQLdb
 
-
 # retorna conexao ao banco de dados escolhido
 def conectar_mysql(host, usuario, senha, banco):
     conexao = MySQLdb.connect(host=host, user=usuario, passwd=senha, db=banco)
