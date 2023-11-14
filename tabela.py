@@ -19,7 +19,10 @@ class BaseDeDados:
         for Campo in Campos:
             print(Campo)
             tabela.campos.append(Campo)
-            arq_tabela.write(Campo+',')
+            arq_tabela.write(Campo)
+            if Campo != Campos[len(Campos)-1]:
+                arq_tabela.write(',')
+
         arq_tabela.write('\n')
         arq_tabela.close()
         self.caminhos.append("tabelas/"+nome+".csv")

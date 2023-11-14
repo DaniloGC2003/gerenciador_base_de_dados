@@ -27,6 +27,7 @@ def importar_dados():
 
 def interpreta_comando(comando, db, executando):
 
+    erro = 0
     split_string(comando)
     print(palavras_do_comando)
 
@@ -39,6 +40,8 @@ def interpreta_comando(comando, db, executando):
             pass
         elif palavras_do_comando[1] == 'local':  # arquivo csv local
             importacao_csv.importar_de_csv(db)
+        else:
+            erro = 1
 
 
     elif palavras_do_comando[0] == 'criar':
@@ -56,8 +59,15 @@ def interpreta_comando(comando, db, executando):
                     else:
                         campos.append(palavras_do_comando[i])
                     i = i + 1
-                campos.append(palavras_do_comando[i][:-1])
+                    if (i >= len(palavras_do_comando)):
+                        break
+                if (i < len(palavras_do_comando)):
+                    campos.append(palavras_do_comando[i][:-1])
+            else:
+                erro = 4
             db.criar_tabela(campos, palavras_do_comando[2])
+        else:
+            erro = 2
             # Exemplos de sintaxe válida:
             # criar tabela Teste: campo1, campo2.
             # criar tabela Teste : campo1 campo2.
@@ -68,6 +78,12 @@ def interpreta_comando(comando, db, executando):
 
     elif palavras_do_comando[0] == 'sair':
         executando[0] = False
+
+    else:
+        erro = 1
+
+    if erro != 0:
+        print("ERRO: Expressão não reconhecida na posição {}.".format(erro))
 
 
 def conectar_a_base_externa():
