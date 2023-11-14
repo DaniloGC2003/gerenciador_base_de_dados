@@ -1,5 +1,6 @@
 import tabela
 import importacao_csv
+import conexao_externa
 
 palavras_do_comando = []  # lista em que cada elemento eh uma palavra
 
@@ -34,18 +35,17 @@ def interpreta_comando(comando, db, executando):
     if comando == '':
         pass  # nao faz nada
 
-
     elif palavras_do_comando[0] == 'importação':
         if palavras_do_comando[1] == 'externa':  # base de dados externa
-            pass
+            conexao_externa.importar()
         elif palavras_do_comando[1] == 'local':  # arquivo csv local
             importacao_csv.importar_de_csv(db)
         else:
             erro = 1
 
-
     elif palavras_do_comando[0] == 'criar':
-        if palavras_do_comando[1] == 'tabela':  # Cria uma nova tabela e o arquivo correspondente.
+        # Cria uma nova tabela e o arquivo correspondente.
+        if palavras_do_comando[1] == 'tabela':
             campos = []
             i = 4
             if palavras_do_comando[3] == ':' \
@@ -53,7 +53,8 @@ def interpreta_comando(comando, db, executando):
                 if palavras_do_comando[2][len(palavras_do_comando[2])-1] == ':':
                     palavras_do_comando[2] = palavras_do_comando[2][:-1]
                     i = 3
-                while palavras_do_comando[i][len(palavras_do_comando[i])-1] != '.':  # Sintaxe flexível.
+                # Sintaxe flexível.
+                while palavras_do_comando[i][len(palavras_do_comando[i])-1] != '.':
                     if palavras_do_comando[i][len(palavras_do_comando[i])-1] == ',':
                         campos.append(palavras_do_comando[i][:-1])
                     else:
@@ -76,7 +77,6 @@ def interpreta_comando(comando, db, executando):
             # a nova tabela não será criada
             # e o programa esperará a próxima instrução.
 
-
     elif palavras_do_comando[0] == 'inserir':
         if palavras_do_comando[1] == 'em':
             i = 4
@@ -85,7 +85,8 @@ def interpreta_comando(comando, db, executando):
                 if palavras_do_comando[2][len(palavras_do_comando[2])-1] == ':':
                     palavras_do_comando[2] = palavras_do_comando[2][:-1]
                     i = 3
-                arq_tabela = open("tabelas/" + palavras_do_comando[2] + ".csv", 'a+')
+                arq_tabela = open(
+                    "tabelas/" + palavras_do_comando[2] + ".csv", 'a+')
                 pos = arq_tabela.tell()
                 arq_tabela.seek(0)
                 campos = arq_tabela.readline()   # Primeira linha com os campos
@@ -102,7 +103,8 @@ def interpreta_comando(comando, db, executando):
                     x = x + 1
                 print(len(campos))
                 if len(palavras_do_comando) - i != len(campos):
-                    print("ERRO: Número de argumentos não corresponde ao número de campos.")
+                    print(
+                        "ERRO: Número de argumentos não corresponde ao número de campos.")
                     return 1
                 arq_tabela.seek(pos)
                 while i < len(palavras_do_comando):
@@ -127,10 +129,3 @@ def interpreta_comando(comando, db, executando):
 
     if erro != 0:
         print("ERRO: Expressão não reconhecida na posição {}.".format(erro))
-
-
-def conectar_a_base_externa():
-    host = input()
-    usuario = input()
-    senha = input()
-    banco = input()
