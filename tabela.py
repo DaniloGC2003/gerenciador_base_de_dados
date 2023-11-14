@@ -4,6 +4,27 @@ import csv
 class BaseDeDados:
     def __init__(self):
         self.tabelas = []
+        self.caminhos = []
+
+    def criar_tabela(self, Campos, nome):
+        try:
+            arq_tabela = open("tabelas/"+nome+".csv", 'x')
+        except:
+            print("ERRO: Esta tabela já existe.")
+            return 1
+
+        writer = csv.writer(arq_tabela)
+        tabela = Tabela(nome, nome+".csv")
+
+        for Campo in Campos:
+            print(Campo)
+            tabela.campos.append(Campo)
+            arq_tabela.write(Campo+',')
+        arq_tabela.write('\n')
+        arq_tabela.close()
+        self.caminhos.append("tabelas/"+nome+".csv")
+
+        self.tabelas.append(tabela)
 
 
 class Campo:
