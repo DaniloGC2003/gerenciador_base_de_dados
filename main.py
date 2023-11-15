@@ -19,6 +19,7 @@ executando = [True]
 
 comando = ''
 base_de_dados = tabela.BaseDeDados()
+base_de_dados.inicializar_tabelas()
 
 while executando[0]:
     print('->')

@@ -2,6 +2,7 @@
 
 import MySQLdb
 import csv
+import tabela as tb
 
 # retorna conexao ao banco de dados escolhido
 
@@ -31,7 +32,7 @@ def input_informacoes():
     return (host, usuario, senha, banco, tabela)
 
 
-def importar():
+def importar(db):
     host, usuario, senha, banco, tabela = input_informacoes()
     conexao = conectar_mysql(host, usuario, senha, banco)
     cursor = criar_cursor(conexao)
@@ -47,5 +48,11 @@ def importar():
         # escrever linhas no arquivo
         for linha in linhas:
             csv_writer.writerow(linha)
+
+    nova_tabela = tb.Tabela(tabela, 'tabelas/' + tabela)
+
+    for campo in linhas[0]:
+        nova_tabela.campos.append(tb.Campo(campo))
+    db.tabelas.append(nova_tabela)
 
     conexao.close()

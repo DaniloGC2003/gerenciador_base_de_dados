@@ -37,7 +37,7 @@ def interpreta_comando(comando, db, executando):
 
     elif palavras_do_comando[0] == 'importação':
         if palavras_do_comando[1] == 'externa':  # base de dados externa
-            conexao_externa.importar()
+            conexao_externa.importar(db)
         elif palavras_do_comando[1] == 'local':  # arquivo csv local
             importacao_csv.importar_de_csv(db)
         else:
