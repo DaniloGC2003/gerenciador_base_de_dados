@@ -22,10 +22,6 @@ def split_string(comando):
             palavra = ''
 
 
-def importar_dados():
-    pass
-
-
 def interpreta_comando(comando, db, executando):
 
     erro = 0
@@ -125,26 +121,26 @@ def interpreta_comando(comando, db, executando):
         i = 1
         camposSel = []
         camposNum = []
-        while (palavras_do_comando[i] != 'de'):   #campos do 'selecionar'
+        while (palavras_do_comando[i] != 'de'):  # campos do 'selecionar'
             if palavras_do_comando[i][len(palavras_do_comando[i]-1)] == ',':
                 palavras_do_comando[i] = palavras_do_comando[i][:-1]
             camposSel.append(palavras_do_comando[i])
             i = i + 1
 
-        #print("camposSel: {}".format(camposSel))
+        # print("camposSel: {}".format(camposSel))
         i = i + 1
         arq_tabela = open("tabelas/" + palavras_do_comando[i] + ".csv", 'r')
         camposTab = arq_tabela.readline()
-        camposTab = camposTab[:-1]    #elimina o \n do final
-        camposTab = camposTab.split(sep=',')    #todos os campos da tabela
-        #print("camposTab: {}".format(camposTab))
+        camposTab = camposTab[:-1]  # elimina o \n do final
+        camposTab = camposTab.split(sep=',')  # todos os campos da tabela
+        # print("camposTab: {}".format(camposTab))
 
         for campo in camposSel:
             j = 0
             while j < len(camposTab):
                 if campo == camposTab[j]:
-                    camposNum.append(j)     #índices dos campos selecionados
-                    #print(campo)
+                    camposNum.append(j)  # índices dos campos selecionados
+                    # print(campo)
                 j = j + 1
 
         resultado = []
@@ -157,7 +153,7 @@ def interpreta_comando(comando, db, executando):
             tmp = tmp.split(sep=',')
             x = 0
             tmp2 = ''
-            #print("camposNum: {}".format(camposNum))
+            # print("camposNum: {}".format(camposNum))
             while x < len(tmp):
                 if x in camposNum:
                     tmp2 = tmp2 + tmp[x] + ','
@@ -172,7 +168,7 @@ def interpreta_comando(comando, db, executando):
                     if tmp2[len(tmp2) - 1] == ',':
                         tmp2 = tmp2[:-1]
 
-            #print(tmp2)
+            # print(tmp2)
             resultado.append(tmp2)
 
         for linha in resultado:
