@@ -122,7 +122,7 @@ def interpreta_comando(comando, db, executando):
         camposSel = []
         camposNum = []
         while (palavras_do_comando[i] != 'de'):  # campos do 'selecionar'
-            if palavras_do_comando[i][len(palavras_do_comando[i]-1)] == ',':
+            if palavras_do_comando[i][len(palavras_do_comando[i])-1] == ',':
                 palavras_do_comando[i] = palavras_do_comando[i][:-1]
             camposSel.append(palavras_do_comando[i])
             i = i + 1
