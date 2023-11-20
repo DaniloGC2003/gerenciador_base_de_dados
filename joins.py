@@ -58,4 +58,4 @@ def join(tabela1, tabela2, campo):
             csv_writer.writerow(tupla)
 
 
-join('student', 'takes', 'ID')
+# join('student', 'takes', 'ID')
