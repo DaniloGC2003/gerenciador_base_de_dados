@@ -33,29 +33,39 @@ def join(tabela1, tabela2, campo):
     tuplas = []  # lista de tuplas
     with open("tabelas/" + tabela1 + ".csv", 'r') as csv_file1:
         reader1 = csv.reader(csv_file1)
-        linhas1 = list(reader1)
+        linhas1 = list(reader1)  # lista de tuplas
         # print('linhas 1:')
         # print(linhas1)
         with open("tabelas/" + tabela2 + ".csv", 'r') as csv_file2:
             reader2 = csv.reader(csv_file2)
-            linhas2 = list(reader2)
+            linhas2 = list(reader2)  # lista de tuplas
             # print('linhas 2: ')
             # print(linhas2)
             for linha1 in linhas1:
+                # se nao eh linha em branco e se nao eh primeira linha:
                 if len(linha1) != 0 and linha1 != linhas1[0]:
                     # print(linha1)
                     for linha2 in linhas2:
+                        # se nao eh linha em branco e se nao eh primeira linha:
                         if len(linha2) != 0 and linha2 != linhas2[0]:
                             if linha1[pos_tabela1] == linha2[pos_tabela2]:
-                                tuplas.append(linha1 + linha2)
+                                # tirar o campo utilizado no join da lista2.
+                                linha2Temp = linha2
+                                del linha2Temp[pos_tabela2]
+
+                                tuplas.append(linha1 + linha2Temp)
 
     with open('tabelas_temporarias/' + 'join_' + tabela1 + '_' + tabela2 + '.csv', 'w') as new_table:
         csv_writer = csv.writer(new_table)
 
-        csv_writer.writerow(campos1 + campos2)
+        campos2Temp = campos2
+        del campos2Temp[pos_tabela2]
+        csv_writer.writerow(campos1 + campos2Temp)
 
         for tupla in tuplas:
             csv_writer.writerow(tupla)
+
+    return open('tabelas_temporarias/' + 'join_' + tabela1 + '_' + tabela2 + '.csv', 'r'), campos1 + campos2
 
 
 # join('student', 'takes', 'ID')

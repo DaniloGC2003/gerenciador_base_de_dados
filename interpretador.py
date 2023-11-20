@@ -2,6 +2,7 @@ import tabela
 import importacao_csv
 import conexao_externa
 import misc
+import joins
 
 palavras_do_comando = []  # lista em que cada elemento eh uma palavra
 
@@ -64,7 +65,7 @@ def interpreta_comando(comando, db, executando):
                     campos.append(palavras_do_comando[i][:-1])
             else:
                 erro = 4
-            
+
             db.criar_tabela(campos, palavras_do_comando[2])
         else:
             erro = 2
@@ -125,8 +126,9 @@ def interpreta_comando(comando, db, executando):
         camposSel = []
         camposNum = []
         if (palavras_do_comando[1] == '*'):
-            arq_tabela = open("tabelas/" + palavras_do_comando[3] + ".csv", 'r')
-            temp = arq_tabela.readline()
+            arq_tabela = open(
+                "tabelas/" + palavras_do_comando[3] + ".csv", 'r')
+            temp = arq_tabela.readline()  # pega linha com nome dos campos
             temp = temp[:-1]  # elimina o \n do final
             camposSel = temp.split(sep=',')
             arq_tabela.close()
@@ -141,7 +143,7 @@ def interpreta_comando(comando, db, executando):
         # print("camposSel: {}".format(camposSel))
         i = i + 1
         arq_tabela = open("tabelas/" + palavras_do_comando[i] + ".csv", 'r')
-        camposTab = arq_tabela.readline()
+        camposTab = arq_tabela.readline()  # pega linha com nomes dos campos
         camposTab = camposTab[:-1]  # elimina o \n do final
         camposTab = camposTab.split(sep=',')  # todos os campos da tabela
         tabelaSel = None
@@ -153,10 +155,16 @@ def interpreta_comando(comando, db, executando):
         if i + 1 < len(palavras_do_comando):
             if palavras_do_comando[i+1] == 'juntar':
                 if palavras_do_comando[i+2] == 'com':
-                    i = i + 3   #fazer o join, incrementar i
-                                #tal que i + 1 seja 'ordenar'
-                                #(se estiver no comando).
-        
+                    if palavras_do_comando[i+4] == 'usando':
+                        arq_tabela.close()
+                        arq_tabela, camposTab = joins.join(
+                            palavras_do_comando[i], palavras_do_comando[i+3], palavras_do_comando[i+5])
+                        # mudar arq_tabela, camposSel, camposTab
+                        # dar readline
+                        i = i + 3  # fazer o join, incrementar i
+                        # tal que i + 1 seja 'ordenar'
+                        # (se estiver no comando).
+
             if palavras_do_comando[i+1] == 'ordenar':
                 if palavras_do_comando[i+2] == 'por':
                     i = i + 3
@@ -166,7 +174,7 @@ def interpreta_comando(comando, db, executando):
                         i = i + 1
                         if i >= len(palavras_do_comando):
                             break
-                    
+
                     if i < len(palavras_do_comando):
                         camposOrdenar.append(palavras_do_comando[i])
 
@@ -191,6 +199,8 @@ def interpreta_comando(comando, db, executando):
             x = 0
             tmp2 = ''
             # print("camposNum: {}".format(camposNum))
+
+            # cria string com campos selecionados
             while x < len(tmp):
                 if x in camposNum:
                     tmp2 = tmp2 + tmp[x] + ','
@@ -205,7 +215,7 @@ def interpreta_comando(comando, db, executando):
                     if tmp2[len(tmp2) - 1] == ',':
                         tmp2 = tmp2[:-1]
 
-            # print(tmp2)
+            # print('tmp2: ' + tmp2)
             resultado.append(tmp2)
 
         for linha in resultado:
