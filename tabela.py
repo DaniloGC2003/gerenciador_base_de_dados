@@ -28,7 +28,7 @@ class BaseDeDados:
         arq_tabela.close()
         self.caminhos.append("tabelas/"+nome+".csv")
 
-        #self.tabelas.append(tabela)
+        # self.tabelas.append(tabela)
         self.inicializar_tabelas()
 
     # cria objetos Tabela a partir de arquivos csv ja existentes na pasta tabelas
@@ -44,7 +44,7 @@ class BaseDeDados:
                 nome_tabela_sem_ext = arquivo[:-4]  # remover extensao do nome
                 for tabela in self.tabelas:
                     if tabela.nome == nome_tabela_sem_ext:
-                        #print("Tabela {} já existe.".format(nome_tabela_sem_ext))
+                        # print("Tabela {} já existe.".format(nome_tabela_sem_ext))
                         continue
 
                 linhas = list(reader)
@@ -54,8 +54,7 @@ class BaseDeDados:
                 for campo in nomes_campos:
                     new_table.campos.append(Campo(campo))
 
-
-                #reg = file.readlines()
+                # reg = file.readlines()
                 l2 = []
                 y = 1
                 i = 0
@@ -68,12 +67,12 @@ class BaseDeDados:
                         y = y + 1
                         continue
                     else:
-                        print(linhas[y])
+                        # print(linhas[y])
                         l2.append(linhas[y])
                         i = i + 1
                     y = y + 1
                 new_table.registros = l2
-                #print(new_table.registros)
+                # print(new_table.registros)
                 self.tabelas.append(new_table)
                 x = x + 1
 
@@ -91,7 +90,7 @@ class Campo:
 
 
 class Tabela:
-    def __init__(self, nome,caminho):
+    def __init__(self, nome, caminho):
         self.nome = nome
         self.campos = []
         self.caminho = caminho
