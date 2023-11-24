@@ -52,7 +52,7 @@ def importar(db):
     nova_tabela = tb.Tabela(tabela, 'tabelas/' + tabela)
 
     for campo in linhas[0]:
-        nova_tabela.campos.append(tb.Campo(campo))
+        nova_tabela.campos.append(campo)
     db.tabelas.append(nova_tabela)
 
     conexao.close()

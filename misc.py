@@ -1,12 +1,13 @@
 import tabela
 import math
 
-def ordenar(campo, table):
+
+def ordenar(campo, table):  # recebe campo (list) e table(objeto tabela)
     x = 0
     ind = []
-    #print(table.campos)
-    #print(table.campos[0].nome + "vs. " + campo)
-    #for Campo in table.campos:
+    # print(table.campos)
+    # print(table.campos[0].nome + "vs. " + campo)
+    # for Campo in table.campos:
     #    print(Campo.nome)
     #    if campo == Campo.nome:
     #        ind = x
@@ -16,12 +17,11 @@ def ordenar(campo, table):
 
     for CampoO in campo:
         for CampoT in table.campos:
-            print("{}, {}".format(CampoO, CampoT.nome))
-            if CampoO == CampoT.nome:
+            # print("{}, {}".format(CampoO, CampoT.nome))
+            if CampoO == CampoT:
                 ind.append(x)
             x = x + 1
         x = 0
-
 
     if ind == []:
         print("(ordenar) ERRO: Campo solicitado não faz parte da tabela")
@@ -30,23 +30,22 @@ def ordenar(campo, table):
     print(ind)
     o = 0
     while o < len(ind):
-        mergeSort(table,ind[o],0,len(table.registros)-1)
+        mergeSort(table, ind[o], 0, len(table.registros)-1)
         o = o + 1
 
     table.printTabela()
 
 
-def mergeSort(table,campo,imin,imax):
+def mergeSort(table, campo, imin, imax):
     if imin == imax:
         return
 
-    
-    mergeSort(table,campo,imin,imin+math.floor((imax-imin)/2))
-    mergeSort(table,campo,1+imin+math.floor((imax-imin)/2),imax)
+    mergeSort(table, campo, imin, imin+math.floor((imax-imin)/2))
+    mergeSort(table, campo, 1+imin+math.floor((imax-imin)/2), imax)
 
     print("{}, {}".format(imin, imax))
     x = imin
-    y = 1 + imin+math.floor((imax-imin)/2) 
+    y = 1 + imin+math.floor((imax-imin)/2)
     iter = imin
     regx = table.registros[x]
     regy = table.registros[y]
@@ -74,9 +73,9 @@ def mergeSort(table,campo,imin,imax):
             regx = table.registros[x]
 
         elif x > imin+math.floor((imax-imin)/2) or regy[campo] < regx[campo]:
-            #aux = table.registros[y]
-            #table.registros[y] = table.registros[iter]
-            #table.registros[iter] = aux
+            # aux = table.registros[y]
+            # table.registros[y] = table.registros[iter]
+            # table.registros[iter] = aux
             res.append(table.registros[y])
             iter = iter + 1
             y = y + 1
@@ -87,9 +86,9 @@ def mergeSort(table,campo,imin,imax):
             regy = table.registros[y]
 
         elif y > imax or regy[campo] >= regx[campo]:
-            #aux = table.registros[x]
-            #table.registros[x] = table.registros[iter]
-            #table.registros[iter] = aux
+            # aux = table.registros[x]
+            # table.registros[x] = table.registros[iter]
+            # table.registros[iter] = aux
             res.append(table.registros[x])
             iter = iter + 1
             x = x + 1
@@ -98,6 +97,6 @@ def mergeSort(table,campo,imin,imax):
                 continue
 
             regx = table.registros[x]
-    
-    for i in range(imin,imin+len(res)):
+
+    for i in range(imin, imin+len(res)):
         table.registros[i] = res[i-imin]

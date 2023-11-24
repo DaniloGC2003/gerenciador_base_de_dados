@@ -52,7 +52,7 @@ class BaseDeDados:
 
                 new_table = Tabela(nome_tabela_sem_ext, 'tabelas/' + arquivo)
                 for campo in nomes_campos:
-                    new_table.campos.append(Campo(campo))
+                    new_table.campos.append(campo)
 
                 # reg = file.readlines()
                 l2 = []
@@ -80,13 +80,14 @@ class BaseDeDados:
         for tabela in self.tabelas:
             print(tabela.nome + ': ', end='')
             for campo in tabela.campos:
-                print(campo.nome + ' ', end='')
+                print(campo)
             print('\n')
 
 
-class Campo:
+'''class Campo:
     def __init__(self, nome):
         self.nome = nome
+'''
 
 
 class Tabela:

@@ -27,5 +27,5 @@ def importar_de_csv(db):
             nome_tabela_sem_ext, 'tabelas/' + nome_tabela)
 
         for campo in linhas[0]:
-            nova_tabela.campos.append(tabela.Campo(campo))
+            nova_tabela.campos.append(campo)
         db.tabelas.append(nova_tabela)

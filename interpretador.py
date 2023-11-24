@@ -45,7 +45,7 @@ def interpreta_comando(comando, db, executando):
     elif palavras_do_comando[0] == 'criar':
         # Cria uma nova tabela e o arquivo correspondente.
         if palavras_do_comando[1] == 'tabela':
-            campos = []
+            campos = []  # lista de strings
             i = 4
             if palavras_do_comando[3] == ':' \
                     or palavras_do_comando[2][len(palavras_do_comando[2])-1] == ':':
@@ -159,7 +159,7 @@ def interpreta_comando(comando, db, executando):
                         arq_tabela.close()
                         arq_tabela, camposTab, tabelaSel = joins.join(
                             palavras_do_comando[i], palavras_do_comando[i+3], palavras_do_comando[i+5], db)
-                        camposSel = camposTab
+                        # camposSel = camposTab
 
                         # print('nova tabela depois do join:', end='')
                         # tabelaSel.printTabela()
