@@ -29,7 +29,7 @@ def interpreta_comando(comando, db, executando):
     erro = 0
     split_string(comando)
     print(palavras_do_comando)
-    db.print_tabela()
+    # db.print_tabela()
 
     if comando == '':
         pass  # nao faz nada
@@ -149,36 +149,40 @@ def interpreta_comando(comando, db, executando):
         tabelaSel = None
         for iter in db.tabelas:
             if iter.nome == palavras_do_comando[i]:
-                tabelaSel = iter
+                tabelaSel = iter  # objeto tabela
         # print("camposTab: {}".format(camposTab))
 
-        if i + 1 < len(palavras_do_comando):
+        if i + 1 < len(palavras_do_comando):  # msg esperada: juntar com TAB1 usando TAB2
             if palavras_do_comando[i+1] == 'juntar':
                 if palavras_do_comando[i+2] == 'com':
                     if palavras_do_comando[i+4] == 'usando':
                         arq_tabela.close()
-                        arq_tabela, camposTab = joins.join(
-                            palavras_do_comando[i], palavras_do_comando[i+3], palavras_do_comando[i+5])
-                        # mudar arq_tabela, camposSel, camposTab
-                        # dar readline
-                        i = i + 3  # fazer o join, incrementar i
+                        arq_tabela, camposTab, tabelaSel = joins.join(
+                            palavras_do_comando[i], palavras_do_comando[i+3], palavras_do_comando[i+5], db)
+                        camposSel = camposTab
+
+                        # print('nova tabela depois do join:', end='')
+                        # tabelaSel.printTabela()
+
+                        i = i + 5  # fazer o join, incrementar i
                         # tal que i + 1 seja 'ordenar'
                         # (se estiver no comando).
 
-            if palavras_do_comando[i+1] == 'ordenar':
-                if palavras_do_comando[i+2] == 'por':
-                    i = i + 3
-                    camposOrdenar = []
-                    while (palavras_do_comando[i][len(palavras_do_comando[i])-1] == ','):
-                        camposOrdenar.append(palavras_do_comando[i][:-1])
-                        i = i + 1
-                        if i >= len(palavras_do_comando):
-                            break
+            if i+1 < len(palavras_do_comando):
+                if palavras_do_comando[i+1] == 'ordenar':
+                    if palavras_do_comando[i+2] == 'por':
+                        i = i + 3
+                        camposOrdenar = []
+                        while (palavras_do_comando[i][len(palavras_do_comando[i])-1] == ','):
+                            camposOrdenar.append(palavras_do_comando[i][:-1])
+                            i = i + 1
+                            if i >= len(palavras_do_comando):
+                                break
 
-                    if i < len(palavras_do_comando):
-                        camposOrdenar.append(palavras_do_comando[i])
+                        if i < len(palavras_do_comando):
+                            camposOrdenar.append(palavras_do_comando[i])
 
-                    misc.ordenar(camposOrdenar, tabelaSel)
+                        misc.ordenar(camposOrdenar, tabelaSel)
 
         for campo in camposSel:
             j = 0
@@ -218,6 +222,7 @@ def interpreta_comando(comando, db, executando):
             # print('tmp2: ' + tmp2)
             resultado.append(tmp2)
 
+        print('tabela final: ')
         for linha in resultado:
             print(linha)
 

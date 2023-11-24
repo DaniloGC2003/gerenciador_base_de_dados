@@ -4,7 +4,15 @@ import csv
 # faz o inner join de tabela1 com tabela2 de acordo com campo.
 
 
-def join(tabela1, tabela2, campo):
+def criar_objeto_tabela_temp(nomeTabela, db):
+    novaTabela = tabela.Tabela(
+        nomeTabela, 'tabelas_temporarias/' + nomeTabela + '.csv')
+    db.tabelas.append(novaTabela)
+
+    return novaTabela
+
+
+def join(tabela1, tabela2, campo, db):
     # print(tabela1, tabela2)
 
     arq_tabela1 = open(
@@ -20,7 +28,6 @@ def join(tabela1, tabela2, campo):
     temp = temp[:-1]  # elimina o \n do final
     campos2 = temp.split(sep=',')  # lista com nomes dos campos
     arq_tabela2.close()
-
     # posicao do campo a ser utilizado no join
     pos_tabela1 = campos1.index(campo)
     pos_tabela2 = campos2.index(campo)
@@ -58,14 +65,27 @@ def join(tabela1, tabela2, campo):
     with open('tabelas_temporarias/' + 'join_' + tabela1 + '_' + tabela2 + '.csv', 'w') as new_table:
         csv_writer = csv.writer(new_table)
 
-        campos2Temp = campos2
+        campos2Temp = list(campos2)
         del campos2Temp[pos_tabela2]
         csv_writer.writerow(campos1 + campos2Temp)
 
         for tupla in tuplas:
             csv_writer.writerow(tupla)
 
-    return open('tabelas_temporarias/' + 'join_' + tabela1 + '_' + tabela2 + '.csv', 'r'), campos1 + campos2
+    novaTabela = criar_objeto_tabela_temp(
+        'join_' + tabela1 + '_' + tabela2, db)
+
+    # colocar campos na nova tabela
+    novaTabela.campos.extend(campos1)
+    campos2Temp = list(campos2)
+    del campos2Temp[pos_tabela2]
+    novaTabela.campos.extend(campos2Temp)
+
+    # colocar registros
+    for tupla in tuplas:
+        novaTabela.registros.append(tupla)
+
+    return open('tabelas_temporarias/' + 'join_' + tabela1 + '_' + tabela2 + '.csv', 'r'), campos1 + campos2Temp, novaTabela
 
 
 # join('student', 'takes', 'ID')
