@@ -12,6 +12,8 @@ def ordenar(campo, table):
     #        ind = x
     #    x = x + 1
 
+    campo.reverse()
+
     for CampoO in campo:
         for CampoT in table.campos:
             print("{}, {}".format(CampoO, CampoT.nome))
@@ -78,7 +80,7 @@ def mergeSort(table,campo,imin,imax):
             res.append(table.registros[y])
             iter = iter + 1
             y = y + 1
-            if y >= imax:
+            if y > imax:
                 regy = None
                 continue
 
@@ -98,4 +100,4 @@ def mergeSort(table,campo,imin,imax):
             regx = table.registros[x]
     
     for i in range(imin,imin+len(res)):
-        table.registros[i] = res[i]
+        table.registros[i] = res[i-imin]
