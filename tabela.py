@@ -97,8 +97,8 @@ class Tabela:
         self.caminho = caminho
         self.registros = []
 
-    def registrar(self, str):
-        self.registros.append(str)
+    def registrar(self, string):
+        self.registros.append(string)
 
     def printTabela(self):
         print(self.nome + ': ', end='')

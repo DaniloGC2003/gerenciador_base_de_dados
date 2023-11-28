@@ -164,6 +164,7 @@ def interpreta_comando(comando, db, executando):
                 arq_tabela.close()
                 arq_tabela, tabelaSel = where.filtragem_1_campo(
                     palavras_do_comando[i], db, palavras_do_comando[i+2], palavras_do_comando[i+3], palavras_do_comando[i+4])
+                i = i + 4
             if palavras_do_comando[i+1] == 'juntar':
                 if palavras_do_comando[i+2] == 'com':
                     if palavras_do_comando[i+4] == 'usando':

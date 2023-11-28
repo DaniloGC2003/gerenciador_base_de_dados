@@ -38,31 +38,37 @@ def filtragem_1_campo(tabela, db, palavra1, operador, palavra2):  # retorna
             if linha != linhas[0] and len(linha) != 0:
                 if linha[posicao_campo] == palavra2:
                     csv_writer.writerow(linha)
+                    tabela_nova.registrar(linha)
     elif operador == '>=':
         for linha in linhas:
             if linha != linhas[0] and len(linha) != 0:
                 if float(linha[posicao_campo]) >= float(palavra2):
                     csv_writer.writerow(linha)
+                    tabela_nova.registrar(linha)
     elif operador == '>':
         for linha in linhas:
             if linha != linhas[0] and len(linha) != 0:
                 if float(linha[posicao_campo]) > float(palavra2):
                     csv_writer.writerow(linha)
+                    tabela_nova.registrar(linha)
     elif operador == '<=':
         for linha in linhas:
             if linha != linhas[0] and len(linha) != 0:
                 if float(linha[posicao_campo]) <= float(palavra2):
                     csv_writer.writerow(linha)
+                    tabela_nova.registrar(linha)
     elif operador == '<':
         for linha in linhas:
             if linha != linhas[0] and len(linha) != 0:
-                if float(linha[posicao_campo]) >= float(palavra2):
+                if float(linha[posicao_campo]) < float(palavra2):
                     csv_writer.writerow(linha)
+                    tabela_nova.registrar(linha)
     elif operador == '!=':
         for linha in linhas:
             if linha != linhas[0] and len(linha) != 0:
                 if linha[posicao_campo] != palavra2:
                     csv_writer.writerow(linha)
+                    tabela_nova.registrar(linha)
 
     arq_tabelaTemp.close()
 
