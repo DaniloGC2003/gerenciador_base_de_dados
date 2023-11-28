@@ -152,7 +152,10 @@ def interpreta_comando(comando, db, executando):
                 tabelaSel = iter  # objeto tabela
         # print("camposTab: {}".format(camposTab))
 
+        #se ainda houver mais comandos
         if i + 1 < len(palavras_do_comando):  # msg esperada: juntar com TAB1 usando TAB2
+            if palavras_do_comando[i+1] == 'onde':
+                print('oi')
             if palavras_do_comando[i+1] == 'juntar':
                 if palavras_do_comando[i+2] == 'com':
                     if palavras_do_comando[i+4] == 'usando':
