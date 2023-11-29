@@ -10,24 +10,45 @@ palavras_do_comando = []  # lista em que cada elemento eh uma palavra
 
 # preenche palavras_do_comando com as palavras que compoem a string digitada pelo usuario
 def split_string(comando):
+    dentro_aspas = False
     palavras_do_comando.clear()
     palavra = ''
     for i in range(0, len(comando)):
-        if comando[i] != ' ' and (comando[i] != '\'' or comando[i] != '\"'):
-            if i == len(comando) - 1:  # ultimo char da string
-                palavra += comando[i]
+        if not dentro_aspas:
+            if comando[i] != ' ' and (comando[i] != '\'' and comando[i] != '\"'):
+                if i == len(comando) - 1:  # ultimo char da string
+                    palavra += comando[i]
+                    palavras_do_comando.append(palavra)
+                    palavra = ''
+                else:  # nao eh ultimo char da string
+                    palavra += comando[i]
+            # barra de espaco
+            elif comando[i] == ' ' and (comando[i-1] != '\'' and comando[i-1] != '\"'):
                 palavras_do_comando.append(palavra)
                 palavra = ''
-            else:  # nao eh ultimo char da string
-                palavra += comando[i]
-        elif comando[i] == ' ':  # barra de espaco
-            palavras_do_comando.append(palavra)
-            palavra = ''
 
-        elif comando[i] != '\'' or comando[i] != '\"':
-            i += 1
-            while (comando[i] != '\'' or comando[i] != '\"') and i < len(comando):
-                pass
+            elif comando[i] == '\'' or comando[i] == '\"':
+                dentro_aspas = True
+
+            ''' print('aq' + comando[i])
+                i += 1
+                palavra = ''
+                while (comando[i] != '\'' and comando[i] != '\"'):
+                    print(comando[i])
+                    palavra += comando[i]
+                    i += 1
+                palavras_do_comando.append(palavra)
+                print(palavra)
+                palavra = ''
+                i += 2
+                print('comando: ' + comando[i])'''
+        else:
+            if comando[i] != '\'' and comando[i] != '\"':
+                palavra += comando[i]
+            elif comando[i] == '\'' or comando[i] == '\"':
+                dentro_aspas = False
+                palavras_do_comando.append(palavra)
+                palavra = ''
 
 
 def interpreta_comando(comando, db, executando):
@@ -160,8 +181,8 @@ def interpreta_comando(comando, db, executando):
 
         # se ainda houver mais comandos
         if i + 1 < len(palavras_do_comando):  # msg esperada: juntar com TAB1 usando TAB2
-            arq_tabela.close()
             if palavras_do_comando[i+1] == 'onde':
+                # arq_tabela.close()
                 if i + 5 < len(palavras_do_comando):
                     if palavras_do_comando[i+5] == 'ou' or palavras_do_comando[i+5] == 'e':
                         arq_tabela, tabelaSel = where.filtragem_2_campos(palavras_do_comando[i], db, palavras_do_comando[i+2], palavras_do_comando[i+3],
@@ -171,6 +192,10 @@ def interpreta_comando(comando, db, executando):
                         arq_tabela, tabelaSel = where.filtragem_1_campo(
                             palavras_do_comando[i], db, palavras_do_comando[i+2], palavras_do_comando[i+3], palavras_do_comando[i+4])
                         i = i + 4
+                else:
+                    arq_tabela, tabelaSel = where.filtragem_1_campo(
+                        palavras_do_comando[i], db, palavras_do_comando[i+2], palavras_do_comando[i+3], palavras_do_comando[i+4])
+                    i = i + 4
             if i+1 < len(palavras_do_comando):
                 if palavras_do_comando[i+1] == 'juntar':
                     if palavras_do_comando[i+2] == 'com':
