@@ -160,25 +160,32 @@ def interpreta_comando(comando, db, executando):
 
         # se ainda houver mais comandos
         if i + 1 < len(palavras_do_comando):  # msg esperada: juntar com TAB1 usando TAB2
+            arq_tabela.close()
             if palavras_do_comando[i+1] == 'onde':
-                arq_tabela.close()
-                arq_tabela, tabelaSel = where.filtragem_1_campo(
-                    palavras_do_comando[i], db, palavras_do_comando[i+2], palavras_do_comando[i+3], palavras_do_comando[i+4])
-                i = i + 4
-            if palavras_do_comando[i+1] == 'juntar':
-                if palavras_do_comando[i+2] == 'com':
-                    if palavras_do_comando[i+4] == 'usando':
-                        arq_tabela.close()
-                        arq_tabela, camposTab, tabelaSel = joins.join(
-                            palavras_do_comando[i], palavras_do_comando[i+3], palavras_do_comando[i+5], db)
-                        # camposSel = camposTab
+                if i + 5 < len(palavras_do_comando):
+                    if palavras_do_comando[i+5] == 'ou' or palavras_do_comando[i+5] == 'e':
+                        arq_tabela, tabelaSel = where.filtragem_2_campos(palavras_do_comando[i], db, palavras_do_comando[i+2], palavras_do_comando[i+3],
+                                                                         palavras_do_comando[i+4], palavras_do_comando[i+5], palavras_do_comando[i+6], palavras_do_comando[i+7], palavras_do_comando[i+8])
+                        i = i + 8
+                    else:
+                        arq_tabela, tabelaSel = where.filtragem_1_campo(
+                            palavras_do_comando[i], db, palavras_do_comando[i+2], palavras_do_comando[i+3], palavras_do_comando[i+4])
+                        i = i + 4
+            if i+1 < len(palavras_do_comando):
+                if palavras_do_comando[i+1] == 'juntar':
+                    if palavras_do_comando[i+2] == 'com':
+                        if palavras_do_comando[i+4] == 'usando':
+                            arq_tabela.close()
+                            arq_tabela, camposTab, tabelaSel = joins.join(
+                                palavras_do_comando[i], palavras_do_comando[i+3], palavras_do_comando[i+5], db)
+                            # camposSel = camposTab
 
-                        # print('nova tabela depois do join:', end='')
-                        # tabelaSel.printTabela()
+                            # print('nova tabela depois do join:', end='')
+                            # tabelaSel.printTabela()
 
-                        i = i + 5  # fazer o join, incrementar i
-                        # tal que i + 1 seja 'ordenar'
-                        # (se estiver no comando).
+                            i = i + 5  # fazer o join, incrementar i
+                            # tal que i + 1 seja 'ordenar'
+                            # (se estiver no comando).
 
             if i+1 < len(palavras_do_comando):
                 if palavras_do_comando[i+1] == 'ordenar':
