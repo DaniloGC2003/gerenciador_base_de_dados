@@ -76,6 +76,10 @@ class BaseDeDados:
                 self.tabelas.append(new_table)
                 x = x + 1
 
+    def refresh(self):
+        self.tabelas = []
+        self.inicializar_tabelas()
+
     def print_tabela(self):  # funcao para debugging
         for tabela in self.tabelas:
             print(tabela.nome + ': ', end='')

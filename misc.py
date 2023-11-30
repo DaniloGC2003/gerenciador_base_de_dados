@@ -21,7 +21,7 @@ def ordenar(campo, table):  # recebe campo (list) e table(objeto tabela)
             # print("{}, {}".format(CampoO, CampoT.nome))
             if CampoO == CampoT:
                 ind.append(x)
-            if table.registros[0][x].isnumeric() == 1:
+            if is_number(table.registros[0][x]) == 1:
                 num.append(1)
             else:
                 num.append(0)
@@ -133,3 +133,10 @@ def mergeSort(table, campo, imin, imax, num):
 
     for i in range(imin, imin+len(res)):
         table.registros[i] = res[i-imin]
+
+def is_number(string):
+    try:
+        float(string)
+        return True
+    except ValueError:
+        return False

@@ -61,6 +61,9 @@ def interpreta_comando(comando, db, executando):
     if comando == '':
         pass  # nao faz nada
 
+    elif palavras_do_comando[0] == 'refresh':
+        db.refresh()
+
     elif palavras_do_comando[0] == 'importação':
         if palavras_do_comando[1] == 'externa':  # base de dados externa
             conexao_externa.importar(db)
@@ -147,6 +150,65 @@ def interpreta_comando(comando, db, executando):
                 erro = 4
         else:
             erro = 2
+
+    elif palavras_do_comando[0] == 'deletar':
+        if palavras_do_comando[1] == 'de':
+            arq_tabela = open("tabelas/" + palavras_do_comando[2] + ".csv", "r+")
+            for tabela in db.tabelas:
+                if tabela.nome == palavras_do_comando[2]:
+                    tabelaSel = tabela
+                    print("DELETE: Tabela = {}".format(palavras_do_comando[2]))
+                    break
+
+            if (palavras_do_comando[3] == 'onde'):
+                if 7 < len(palavras_do_comando):
+                    if palavras_do_comando[7] == 'ou' or palavras_do_comando[7] == 'e':
+                        arq_tabela_filtrada, tabelaSel_filtrada = where.filtragem_2_campos(palavras_do_comando[2], db, palavras_do_comando[4], palavras_do_comando[5],
+                                                                         palavras_do_comando[6], palavras_do_comando[7], palavras_do_comando[8], palavras_do_comando[9], palavras_do_comando[10])
+                        #i = i + 8
+                        print("DELETE: WHERE chamado 1")
+                    else:
+                        arq_tabela_filtrada, tabelaSel_filtrada = where.filtragem_1_campo(
+                            palavras_do_comando[2], db, palavras_do_comando[4], palavras_do_comando[5], palavras_do_comando[6])
+                        #i = i + 4
+                        print("DELETE: WHERE chamado 2")
+                else:
+                    arq_tabela_filtrada, tabelaSel_filtrada = where.filtragem_1_campo(
+                        palavras_do_comando[2], db, palavras_do_comando[4], palavras_do_comando[5], palavras_do_comando[6])
+                    print("DELETE: WHERE chamado 3")
+
+            temp = arq_tabela
+            print(tabelaSel_filtrada.registros)
+            registros_deletados = []
+            for reg in tabelaSel_filtrada.registros:
+                if reg in tabelaSel.registros:
+                    print("\n\n\n\n\n\n\nRegistro encontrado.\n\n\n\n\n\n")
+                    registros_deletados.append(reg)
+                    #stringreg = ""
+                    #for camporeg in reg:
+                    #    stringreg = stringreg + camporeg + ','
+                    #stringreg = stringreg[:-1]
+                    #stringreg = stringreg + '\n'
+                    #registros_deletados.append(stringreg)
+
+            arq_tabela.seek(0)
+            campos = arq_tabela.readline()
+            arq_tabela.close()
+            print("arq_tabela fechado.")
+            arq_tabela = open("tabelas/" + palavras_do_comando[2] + ".csv", "w")
+            arq_tabela.write(campos)
+            for reg in tabelaSel.registros:
+                if reg not in registros_deletados:
+                    i = 1
+                    for camporeg in reg:
+                        arq_tabela.write(camporeg)
+                        if i < len(reg):
+                            arq_tabela.write(',')
+                        else:
+                            arq_tabela.write('\n')
+                        i = i + 1
+            #arq_tabela.write(temp)
+
 
     elif palavras_do_comando[0] == 'selecionar':
         i = 1
