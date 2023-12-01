@@ -23,9 +23,11 @@ def importar_de_csv(db):
             for line in linhas:
                 csv_writer.writerow(line)
 
-        nova_tabela = tabela.Tabela(
+        '''nova_tabela = tabela.Tabela(
             nome_tabela_sem_ext, 'tabelas/' + nome_tabela)
 
         for campo in linhas[0]:
             nova_tabela.campos.append(campo)
-        db.tabelas.append(nova_tabela)
+        db.tabelas.append(nova_tabela)'''
+
+    db.inicializar_tabelas()

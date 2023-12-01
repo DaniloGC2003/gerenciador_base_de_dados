@@ -49,10 +49,12 @@ def importar(db):
         for linha in linhas:
             csv_writer.writerow(linha)
 
-    nova_tabela = tb.Tabela(tabela, 'tabelas/' + tabela)
+    '''nova_tabela = tb.Tabela(tabela, 'tabelas/' + tabela)
 
     for campo in linhas[0]:
         nova_tabela.campos.append(campo)
-    db.tabelas.append(nova_tabela)
+    db.tabelas.append(nova_tabela)'''
+
+    db.inicializar_tabelas()
 
     conexao.close()
