@@ -4,6 +4,7 @@ import conexao_externa
 import misc
 import joins
 import where
+import update
 
 palavras_do_comando = []  # lista em que cada elemento eh uma palavra
 limite_linhas = 100  # limite de linhas a serem impressas
@@ -54,7 +55,7 @@ def split_string(comando):
 
 
 def interpreta_comando(comando, db, executando):
-
+    i = 0
     erro = 0
     split_string(comando)
     print(palavras_do_comando)
@@ -152,6 +153,21 @@ def interpreta_comando(comando, db, executando):
                 erro = 4
         else:
             erro = 2
+
+    # atualizar TABELA mudar CAMPO = VALOR onde EXPRESSÃO LÓGICA
+    elif palavras_do_comando[0] == 'atualizar':
+        novo_valor = []
+        i = 5  # comeca no inicio da expressao que indica novo valor
+        while palavras_do_comando[i] != 'onde':
+            novo_valor.append(palavras_do_comando[i])
+            i += 1
+
+        i += 1
+        palavra1 = palavras_do_comando[i]
+        operador = palavras_do_comando[i+1]
+        palavra2 = palavras_do_comando[i+2]
+        update.atualizar_campos(palavras_do_comando[1], palavras_do_comando[3], novo_valor,
+                                palavra1, operador, palavra2)
 
     elif palavras_do_comando[0] == 'deletar':
         if palavras_do_comando[1] == 'de':
