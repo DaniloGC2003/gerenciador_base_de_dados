@@ -45,3 +45,5 @@ def atualizar_campos(tabela, campo, novo_valor, palavra1, operador, palavra2):
     with open('tabelas/' + tabela + '.csv', mode='w', newline='') as tabela_csv_write:
         csv_writer = csv.writer(tabela_csv_write)
         csv_writer.writerows(linhas)
+
+    print('Valores atualizados')

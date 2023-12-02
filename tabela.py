@@ -34,7 +34,7 @@ class BaseDeDados:
     # cria objetos Tabela a partir de arquivos csv ja existentes na pasta tabelas
     def inicializar_tabelas(self):
         arquivos_csv = os.listdir('tabelas/')
-        print(arquivos_csv)
+        # print(arquivos_csv)
 
         x = 0
         for arquivo in arquivos_csv:

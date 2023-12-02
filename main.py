@@ -6,7 +6,7 @@ import os
 def apagar_temp():
     # apagar arquivos csv temporarios
     arquivos_csv = os.listdir('tabelas_temporarias/')
-    print(arquivos_csv)
+    # print(arquivos_csv)
     for arquivo in arquivos_csv:
         if os.path.exists('tabelas_temporarias/' + arquivo):
             os.remove('tabelas_temporarias/' + arquivo)

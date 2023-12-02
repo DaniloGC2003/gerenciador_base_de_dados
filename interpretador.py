@@ -58,7 +58,7 @@ def interpreta_comando(comando, db, executando):
     i = 0
     erro = 0
     split_string(comando)
-    print(palavras_do_comando)
+    # print(palavras_do_comando)
     # db.print_tabela()
 
     if comando == '':
