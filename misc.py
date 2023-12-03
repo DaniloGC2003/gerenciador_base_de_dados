@@ -32,15 +32,17 @@ def ordenar(campo, table):  # recebe campo (list) e table(objeto tabela)
         print("(ordenar) ERRO: Campo solicitado não faz parte da tabela")
         return 1
 
-    print(ind)
-    table.printTabela()
-    print(num)
+    #print(ind)
+    #table.printTabela()
+    #print(num)
     o = 0
     while o < len(ind):
         mergeSort(table, ind[o], 0, len(table.registros)-1, num[ind[o]])
         o = o + 1
 
-    table.printTabela()
+    #table.printTabela()
+
+    return table
 
 
 def mergeSort(table, campo, imin, imax, num):
@@ -50,7 +52,7 @@ def mergeSort(table, campo, imin, imax, num):
     mergeSort(table, campo, imin, imin+math.floor((imax-imin)/2), num)
     mergeSort(table, campo, 1+imin+math.floor((imax-imin)/2), imax, num)
 
-    print("{}, {}".format(imin, imax))
+    #print("{}, {}".format(imin, imax))
     x = imin
     y = 1 + imin+math.floor((imax-imin)/2)
     iter = imin

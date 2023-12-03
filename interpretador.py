@@ -233,6 +233,7 @@ def interpreta_comando(comando, db, executando):
         i = 1
         camposSel = []
         camposNum = []
+        tabelaOrdenada = None
         if (palavras_do_comando[1] == '*'):
             arq_tabela = open(
                 "tabelas/" + palavras_do_comando[3] + ".csv", 'r')
@@ -307,7 +308,7 @@ def interpreta_comando(comando, db, executando):
                         if i < len(palavras_do_comando):
                             camposOrdenar.append(palavras_do_comando[i])
 
-                        misc.ordenar(camposOrdenar, tabelaSel)
+                        tabelaOrdenada = misc.ordenar(camposOrdenar, tabelaSel)
 
         for campo in camposSel:
             j = 0
@@ -348,11 +349,22 @@ def interpreta_comando(comando, db, executando):
             resultado.append(tmp2)
 
         print('tabela final: ')
-        for linha in resultado:
-            if resultado.index(linha) < limite_linhas:
-                print(linha)
-            else:
-                break
+        if tabelaOrdenada != None:
+            #tabelaOrdenada.printTabela()
+            for registro in tabelaOrdenada.registros:
+                for parte in registro:
+                    #print(registro.index(parte))
+                    if registro.index(parte) in camposNum:
+                        print(parte, end='')
+                        if registro.index(parte) != camposNum[len(camposNum)-1]:
+                            print(',', end='')
+                print('\n', end='')
+        else:
+            for linha in resultado:
+                if resultado.index(linha) < limite_linhas:
+                    print(linha)
+                else:
+                    break
 
     elif palavras_do_comando[0] == 'sair':
         executando[0] = False
