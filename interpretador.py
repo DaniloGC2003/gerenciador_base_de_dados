@@ -350,15 +350,18 @@ def interpreta_comando(comando, db, executando):
 
         print('tabela final: ')
         if tabelaOrdenada != None:
-            #tabelaOrdenada.printTabela()
+            # tabelaOrdenada.printTabela()
             for registro in tabelaOrdenada.registros:
-                for parte in registro:
-                    #print(registro.index(parte))
-                    if registro.index(parte) in camposNum:
-                        print(parte, end='')
-                        if registro.index(parte) != camposNum[len(camposNum)-1]:
-                            print(',', end='')
-                print('\n', end='')
+                if tabelaOrdenada.registros.index(registro) < limite_linhas:
+                    for parte in registro:
+                        # print(registro.index(parte))
+                        if registro.index(parte) in camposNum:
+                            print(parte, end='')
+                            if registro.index(parte) != camposNum[len(camposNum)-1]:
+                                print(',', end='')
+                    print('\n', end='')
+                else:
+                    break
         else:
             for linha in resultado:
                 if resultado.index(linha) < limite_linhas:
